@@ -53,9 +53,8 @@ def freq_to_vel(freq, f0=1420.4e6):
     a velocity value (or new Dataframe column of values). f0 is the rest
     frequency and defaults to 1420.4 MHz'''
     
-    # We need a value for 'c' - thespeed of light. 
-    # You can either define it explicitly here or alternatively, use the 
-    # Astropy constants
+    # We need a value for 'c' 
+    # Astropy constants - define it explicitly 
     c = const.c  #m/s
     
     #
