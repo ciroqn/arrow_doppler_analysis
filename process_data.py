@@ -10,6 +10,8 @@ InteractiveShell.ast_node_interactivity = "all"
 from astropy import constants as const
 from astropy import units as u
 
+########################## FUNCTIONS ###################################
+
 # Definition to take in a filename and return the header details in a var, and the rest of the file (the actual data) for it to be processed
 def read_ARROW_data(filename):
     """Reads in and partially processes an  ARROW spectrum
@@ -63,3 +65,18 @@ def freq_to_vel(freq, f0=1420.4e6):
     #
     
     return v  #(km/s)  
+
+##################### FILE PROMPT: FILE IS THEN "SEPARATED" INTO ITS HEADER LINES AND RAW DATA ###############################
+
+# Prompt the user for a file name (we'll call it file_name)
+# You should know how to do this by now
+file_name = input("Please input a filename in the format 'filename.csv'")
+
+# spectrum_df is equal to the 'dat' returned variable, and header_lines to the returned 'header_list'
+spectrum_df, header_lines = read_ARROW_data(file_name)
+
+# Just to check, this should show a list of all the header lines in the 'file_name' given by the user input
+print(header_lines)
+
+# Display the first few lines - does it look reasonable?
+spectrum_df.head(12)
