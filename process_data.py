@@ -68,8 +68,7 @@ def freq_to_vel(freq, f0=1420.4e6):
 
 ##################### FILE PROMPT: FILE IS THEN "SEPARATED" INTO ITS HEADER LINES AND RAW DATA ###############################
 
-# Prompt the user for a file name (we'll call it file_name)
-# You should know how to do this by now
+# Prompt the user for a file name (call it file_name)
 file_name = input("Please input a filename in the format 'filename.csv'")
 
 # spectrum_df is equal to the 'dat' returned variable, and header_lines to the returned 'header_list'
