@@ -44,3 +44,23 @@ def read_ARROW_data(filename):
         dat = pd.read_csv(filename, header = number_header_lines, skipinitialspace = True)
 
     return dat, header_list
+
+# Function to convert frequency to radial velocity. The 'freq' is the placeholder for a numpy array or, in this case a dataframe. No need to loop through the 
+# frequencies
+
+def freq_to_vel(freq, f0=1420.4e6):
+    ''' Takes a frequency value (or Pandas Dataframe column or Series) and returns
+    a velocity value (or new Dataframe column of values). f0 is the rest
+    frequency and defaults to 1420.4 MHz'''
+    
+    # We need a value for 'c' - thespeed of light. 
+    # You can either define it explicitly here or alternatively, use the 
+    # Astropy constants
+    c = const.c  #m/s
+    
+    #
+    # use km/s for convenience 
+    v = -(c/1000)*(freq)/(freq+f0)
+    #
+    
+    return v  #(km/s)  
