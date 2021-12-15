@@ -144,10 +144,6 @@ plt.show()
 cloud_thetas = df['longitude']*np.pi/180
 cloud_r = df['R1 from Sun (kpc)']  # Remember that you need to compute R1 first
 
-# Main polar with all the same points (no distinction)
-cloud_thetas = df['longitude']*np.pi/180
-cloud_r = df['R1 from Sun (kpc)']  # Remember that you need to compute R1 first
-
 plot = plt.subplot(111, projection = 'polar')
 # Perhaps separate +ve and -ve vels into colour coded dots? Hmm...
 plt.scatter(cloud_thetas, cloud_r, c="red")
