@@ -84,6 +84,8 @@ spectrum_df.head(12)
 # For Jupyter interface
 output_notebook()
 
+######################################### CODE TO DISPLAY SUERPOSED RAW DATA (I.E. INTENSITY VS FREQ. SHIFT) #############################################
+
 raw_data_array = ['long_030.csv', 'long_040.csv', 'long_050.csv', 'long_060.csv', 'long_070.csv', 'long_080.csv', 'long_090.csv']
 bg_data_0 = ['scan_NGP02.csv', 'scan_NGP03.csv', 'scan_NGP04.csv', 'scan_NGP05.csv', 'scan_NGP06.csv', 'scan_NGP07.csv', 'scan_NGP08.csv', 'scan_NGP09.csv', 'scan_NGP10.csv']
 
@@ -127,3 +129,69 @@ s1.line(bg_data_read[3]['frequency'],bg_data_read[3]['intensity'], color='magent
 s1.line(bg_data_read[4]['frequency'],bg_data_read[4]['intensity'], color='magenta')
 s1.legend.location = "top_left"
 show(s1)
+
+
+
+######################################### CODE FOR BASELINE REMOVAL ################################################
+# Read in the background spectra, average and subtract from the spectrum
+# Here we use  hard-wired file names but you could use a file list, or manually enter them
+number_header_lines = 12
+
+# Dr Cayless' scans for our team:
+raw_data_array = ['long_030.csv', 'long_040.csv', 'long_050.csv', 'long_060.csv', 'long_070.csv', 'long_080.csv', 'long_090.csv']
+park_bg = ['scan_NGP01.csv', 'scan_NGP02.csv', 'scan_NGP03.csv', 'scan_NGP04.csv', 'scan_NGP05.csv', 'scan_NGP06.csv', 'scan_NGP07.csv', 'scan_NGP08.csv', 'scan_NGP09.csv', 'scan_NGP10.csv']
+
+#bgdata_array = ['nepscan1_csv.csv', 'nepscan2_csv.csv', 'nepscan3_csv.csv', 'nepscan4_csv.csv', 'nepscan5_csv.csv', 'nepscan6_csv.csv', 'nepscan7_csv.csv', 'nepscan8_csv.csv']
+
+# These are bg scans from the Park position that can be used instead of the above array:
+#park_bg = ['bg1.csv', 'bg2.csv', 'bg3.csv', 'bg4.csv', 'bg5.csv']
+
+# We again use skipinitialspace = True to ignore the space in the 'intensity' column name
+
+#read_csv_list = []
+#for bg_data in bgdata_array:
+#    read_csv_list.append(pd.read_csv(bg_data, header = number_header_lines, skipinitialspace = True))
+   
+# For park_bg only
+read_csv_list_2 = []
+for bg_data in park_bg:
+    read_csv_list_2.append(pd.read_csv(bg_data, header = number_header_lines, skipinitialspace = True))
+    
+# This is the long way of averaging the bg scans. Instead, I used a for loop...
+#bg1 = pd.read_csv('nepscan1_csv.csv', header = number_header_lines, skipinitialspace = True)
+#bg2 = pd.read_csv('nepscan2_csv.csv', header = number_header_lines, skipinitialspace = True)
+#bg3 = pd.read_csv('nepscan3_csv.csv', header = number_header_lines, skipinitialspace = True)
+#bg4 = pd.read_csv('nepscan4_csv.csv', header = number_header_lines, skipinitialspace = True)
+#bg5 = pd.read_csv('nepscan5_csv.csv', header = number_header_lines, skipinitialspace = True)
+#bg6 = pd.read_csv('nepscan6_csv.csv', header = number_header_lines, skipinitialspace = True)
+#bg7 = pd.read_csv('nepscan7_csv.csv', header = number_header_lines, skipinitialspace = True)
+#bg8 = pd.read_csv('nepscan8_csv.csv', header = number_header_lines, skipinitialspace = True)
+
+# For bgdata_array only
+#bg_sum = 0 
+#for data in read_csv_list:
+#    bg_sum += data['intensity']
+
+# For park_bg only: adding the intensities for each bg scan
+bg_sum_2 = 0
+for data in read_csv_list_2:
+    bg_sum_2 += data['intensity']
+
+bg_av = bg_sum_2/10
+
+# Compute average intensity values
+# bg_av = (bg1['intensity']+bg2['intensity']+bg3['intensity']+bg4['intensity']+bg5['intensity']+bg6['intensity']+bg7['intensity']+bg8['intensity'])/8
+print(type(bg_av))
+# Subract from spectrum intensity
+spectrum_df['intensity'] = spectrum_df['intensity']-bg_av.values
+
+spectrum_df.head(20)
+
+spectrum_df.tail(10)
+
+s01 = figure(plot_width=850, plot_height=500, title='Scans at: l = 40, 50, 60, 70, 80, 90',
+            x_axis_label='Frequency/Hz', 
+            y_axis_label='Intensity')
+s01.line(spectrum_df['frequency'],spectrum_df['intensity'], color='red', legend='l = 30')
+s01.legend.location = "top_left"
+show(s01)
