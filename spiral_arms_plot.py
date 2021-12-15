@@ -31,3 +31,25 @@ df['R from GC (km)'] = R_calculation_numerator/R_calculation_denom # in km
 df['R from GC (kpc)'] = df['R from GC (km)']/KPC_KM
 
 df.head(16)
+
+
+################### FINDING R1 FOR EACH CLOUD USING COSINE RULE ##############################
+
+# Calculating R1, which is the the distance from the Sun and NOT from the GC. R is the distance from the GC to 
+# celestial object
+import math
+
+cos_l = np.cos(df['longitude']*(np.pi/180))
+first_part = R0_KM*cos_l
+discriminant = (df['R from GC (km)'])**2-(R0_KM**2)*(sin_l)**2
+sqrt = (discriminant)**0.5
+R1 = first_part+sqrt
+df['R1 from Sun (km)'] = R1
+
+# Now for R1 in kpc
+df['R1 from Sun (kpc)'] = R1 / KPC_KM
+
+df.head(40)
+#df.tail(40)
+
+
