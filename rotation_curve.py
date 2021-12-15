@@ -33,6 +33,14 @@ while current_long <= 90:
 
 print(vels)
 
+# Create velocity column for clouds
 df['velocity (km/s)'] = vels
+
+df
+
+# Create velocity error column
+v_error_array = [3, 3, 4, 3, 3, 3, 4, 4, 4, 5]
+
+df['v_error (km/s)'] = v_error_array
 
 df
