@@ -18,3 +18,16 @@ R0_M = R0 * KPC_M # R0 in m
 df = pd.read_csv('list_vobs_csv.csv', sep=',')
 
 df.head(16)
+
+# Using combination of sine rule and difference in radial vels for Sun and cloud. i.e. finding distance of cloud from GC in km
+V0_ms = V0*1000
+V_ms = V*1000
+
+sin_l = np.sin(df['longitude']*(np.pi/180))
+R_calculation_numerator = V*R0_KM
+R_calculation_denom = V0 + (df['v_obs (km/s)']/sin_l)
+df['R from GC (km)'] = R_calculation_numerator/R_calculation_denom # in km
+
+df['R from GC (kpc)'] = df['R from GC (km)']/KPC_KM
+
+df.head(16)
