@@ -139,3 +139,30 @@ plt.show()
 
 
 # ALTERNATIVELY, the code below just does the same as above, BUT does NOT distinguish between pos and neg vels.
+
+# Arguments for plt.scatter with NO distinction between neg and pos velocities:
+cloud_thetas = df['longitude']*np.pi/180
+cloud_r = df['R1 from Sun (kpc)']  # Remember that you need to compute R1 first
+
+# Main polar with all the same points (no distinction)
+cloud_thetas = df['longitude']*np.pi/180
+cloud_r = df['R1 from Sun (kpc)']  # Remember that you need to compute R1 first
+
+plot = plt.subplot(111, projection = 'polar')
+# Perhaps separate +ve and -ve vels into colour coded dots? Hmm...
+plt.scatter(cloud_thetas, cloud_r, c="red")
+
+plt.title("Galaxy plot showing H cloud positions", va = 'bottom')
+plt.annotate('Sun', xy=(0, 0), xytext=(10, 10),
+            arrowprops=dict(facecolor='black', shrink=0.05, width=1), 
+            fontsize=18)
+plt.annotate('GC', xy=(0, 8.5), xytext=(5, 5),
+            arrowprops=dict(facecolor='black', shrink=0.05, width=1), 
+            fontsize=18)
+#plt.rcParams['figure.figsize']=(20,20)
+plt.figure(figsize=(20,20))
+plot.set_theta_zero_location("S")
+#plt.rcParams['font.size']= 20
+plt.rcParams['axes.titlesize'] = 20
+plt.savefig('polar.png')
+plt.show()
