@@ -44,3 +44,13 @@ v_error_array = [3, 3, 4, 3, 3, 3, 4, 4, 4, 5]
 df['v_error (km/s)'] = v_error_array
 
 df
+
+# Calculated radius of clouds from GC
+current_long_2 = 0
+radii = []
+while current_long_2 <= 90:
+    rad_val = round(radius(current_long_2), 2)
+    radii.append(rad_val)
+    current_long_2 += 10
+
+print(radii)
