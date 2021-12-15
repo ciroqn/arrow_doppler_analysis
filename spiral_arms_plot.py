@@ -12,3 +12,9 @@ KPC_M = 3.08567758e+19 # kiloparsec to metre conversion factor
 KPC_KM = 3.08567758e+16 # kpc to km conversion factor
 R0_KM = R0*KPC_KM # R0 in km
 R0_M = R0 * KPC_M # R0 in m
+
+# Read data (csv file with LSR-corrected vels)
+
+df = pd.read_csv('list_vobs_csv.csv', sep=',')
+
+df.head(16)
