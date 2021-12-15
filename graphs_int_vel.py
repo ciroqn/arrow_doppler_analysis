@@ -195,3 +195,97 @@ s01 = figure(plot_width=850, plot_height=500, title='Scans at: l = 40, 50, 60, 7
 s01.line(spectrum_df['frequency'],spectrum_df['intensity'], color='red', legend='l = 30')
 s01.legend.location = "top_left"
 show(s01)
+
+# Section for inputted file only. See below for velocity calculation for ALL files in the loop
+# Convert frequency to radial velocity values using this function
+spectrum_v = freq_to_vel(spectrum_df['frequency'])
+
+# Add a new 'velocity' column with these values
+spectrum_df['velocity'] = spectrum_v
+
+spectrum_df['velocity']
+
+######################################### CODE FOR PRINTING INDIV. GRAPH FOR EACH LONG. + GRIDPLOT OF ALL LONG. + GRAPH FOR INPUTTED FILE ########################
+
+# This block of code can be split up into three sections: 1) prints out individual graph for each longitude; 
+# 2) prints a gridplot of all the longitudes 3) prints the graph for the inputted file.
+
+from bokeh.layouts import gridplot
+from bokeh.models import Range1d
+
+# Dr Cayless' scans for our team
+scandata_array = ['long_030.csv', 'long_040.csv', 'long_050.csv', 'long_060.csv', 'long_070.csv', 'long_080.csv', 'long_090.csv']
+bg_data_0 = ['scan_NGP02.csv', 'scan_NGP03.csv', 'scan_NGP04.csv', 'scan_NGP05.csv', 'scan_NGP06.csv', 'scan_NGP07.csv', 'scan_NGP08.csv', 'scan_NGP09.csv', 'scan_NGP10.csv']
+
+# Display plots for all files using loop (these files are the 'old' files from our group's session)
+# scandata_array = ['target40fs_firstcsv.csv', 'target50fs_secondcsv.csv', 'target60fs_secondcsv.csv', 'target70fs_secondcsv.csv', 'target80fs_firstcsv.csv', 'target90fs_firstcsv.csv']
+
+# Read the files in 'scandata_array' using for loop
+read_csv_list_two = []
+for long_data in scandata_array:
+    read_csv_list_two.append(pd.read_csv(long_data, header = number_header_lines, skipinitialspace = True))
+ 
+# For these files, we subtract the averaged intensities of the bg scans and set the velocity column in the modified
+# csv files by inputting the frequency column in the 'freq_to_vel' column. This is done for each longitude:
+current_long = 30
+for longitude in read_csv_list_two:
+    longitude['intensity'] = longitude['intensity']-bg_av.values
+    spectrum_vel = freq_to_vel(longitude['frequency'])
+    longitude['velocity'] = spectrum_vel
+    xvals = longitude['velocity']
+    
+    plot = figure(plot_width=800, plot_height=500, title='Scan at Longitude ' + str(current_long),
+                 x_axis_label='Velocity / kms\u207b\u00b9',
+                 y_axis_label='Intensity')
+    plot.line(xvals,longitude['intensity'], color='red')
+    plot.add_tools(HoverTool(mode='vline'))
+    show(plot)
+    current_long += 10
+    
+    
+# print(read_csv_list_two)
+    
+# The above code prints out a large graph for each. But below, smaller graphs are printed for each and inserted into
+# are plot grid.
+s0 = figure(plot_width=250, plot_height=175, title='S0: l = 30',
+            x_axis_label='Velocity / kms\u207b\u00b9', 
+            y_axis_label='Intensity')
+s0.line(read_csv_list_two[0]['velocity'],read_csv_list_two[0]['intensity'], color='orange')
+s1 = figure(plot_width=250, plot_height=175, title='S1: l = 40',
+            x_axis_label='Velocity / kms\u207b\u00b9', 
+            y_axis_label='Intensity')
+s1.line(read_csv_list_two[1]['velocity'],read_csv_list_two[1]['intensity'], color='red')
+s2 = figure(plot_width=250, plot_height=175, title='S2: l = 50',
+            x_axis_label= 'Velocity / kms\u207b\u00b9', 
+            y_axis_label='Intensity')
+s2.line(read_csv_list_two[2]['velocity'],read_csv_list_two[2]['intensity'], color='green')
+s3 = figure(plot_width=250, plot_height=175, title='S3: l = 60',
+            x_axis_label='Velocity / kms\u207b\u00b9', 
+            y_axis_label='Intensity')
+s3.line(read_csv_list_two[3]['velocity'],read_csv_list_two[3]['intensity'], color='blue')
+s4 = figure(plot_width=250, plot_height=175, title='S4: l = 70',
+            x_axis_label='Velocity / kms\u207b\u00b9', 
+            y_axis_label='Intensity')
+s4.line(read_csv_list_two[4]['velocity'],read_csv_list_two[4]['intensity'], color='black')
+s5 = figure(plot_width=250, plot_height=175, title='S5: l = 80',
+            x_axis_label='Velocity / kms\u207b\u00b9', 
+            y_axis_label='Intensity')
+s5.line(read_csv_list_two[5]['velocity'],read_csv_list_two[5]['intensity'], color='gray')
+s6 = figure(plot_width=250, plot_height=175, title='S6: l = 90',
+            x_axis_label='Velocity / kms\u207b\u00b9', 
+            y_axis_label='Intensity')
+s6.line(read_csv_list_two[6]['velocity'],read_csv_list_two[6]['intensity'], color='purple')
+
+grid = gridplot([[s0,s1,s2],[s3,s4,s5], [s6]])
+show(grid)
+
+# Display plot for inputted file only
+xvals = spectrum_df['velocity']
+
+s1 = figure(plot_width=800, plot_height=400, title='l = 40',
+            x_axis_label='Velocity / kms\u207b\u00b9', 
+            y_axis_label='Intensity')
+s1.line(xvals,spectrum_df['intensity'], color='red')
+s1.add_tools(HoverTool(mode='vline'))
+
+show(s1)
