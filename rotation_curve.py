@@ -32,3 +32,7 @@ while current_long <= 90:
     index += 1
 
 print(vels)
+
+df['velocity (km/s)'] = vels
+
+df
