@@ -289,3 +289,23 @@ s1.line(xvals,spectrum_df['intensity'], color='red')
 s1.add_tools(HoverTool(mode='vline'))
 
 show(s1)
+
+
+########################## IPNUTTED FILE ONLY: CREATE MODIFIED FILE WITH BASELINE SUBTRACTIONS + HEADER ######################################
+
+# This section saves the header lines in a particular file (i.e. file inputted by user at the beginning) to a 
+# modified file (which we prompt for below), and THEN appends the rest of the data (i.e. frequency, modified intensity, 
+# and velocity) to the header. Note the 'mode=a' in the 'to_csv'. This ensures that the data is appended, otherwise, 
+# it will just overwrite the header data, which we don't want.
+
+# Prompt for a new file name
+new_file_name = input("Provide a name for a new file to store the data in format 'filename.csv': ")
+
+# First write the header lines that we read in earlier to the file.
+# Use the .writelines() function from FileIO section 2.1
+with open(new_file_name, mode='w') as newf:
+    newf.writelines(header_lines)
+    
+# Now APPEND the modified csv data using the pandas .to_csv() method 
+# UsingPandas section 3 should help
+spectrum_df.to_csv(new_file_name, index=False, mode='a')
