@@ -136,3 +136,6 @@ plot.set_theta_zero_location("S")
 plt.rcParams['axes.titlesize'] = 20
 plt.savefig('polar_distinction.png')
 plt.show()
+
+
+# ALTERNATIVELY, the code below just does the same as above, BUT does NOT distinguish between pos and neg vels.
