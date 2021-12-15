@@ -59,3 +59,17 @@ print(radii)
 df['radius (kpc)'] = radii
 
 df
+
+# import relevant packages
+
+from bokeh.layouts import gridplot
+from bokeh.models import Range1d
+from bokeh.plotting import figure, output_notebook, show
+from bokeh.models.tools import HoverTool
+
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+%matplotlib inline
+output_notebook()
