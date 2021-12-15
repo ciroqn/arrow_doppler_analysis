@@ -54,3 +54,8 @@ while current_long_2 <= 90:
     current_long_2 += 10
 
 print(radii)
+
+# Add rad column to df
+df['radius (kpc)'] = radii
+
+df
