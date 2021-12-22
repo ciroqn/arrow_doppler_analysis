@@ -12,7 +12,7 @@ from bokeh.models import Range1d
 from bokeh.plotting import figure, output_notebook, show
 from bokeh.models.tools import HoverTool
 
-output_notebook().  # Jupyter-specific, I believe
+output_notebook()  # Jupyter-specific, I believe
 
 # Print each int vs vel graph for each longitude
 long = 0
